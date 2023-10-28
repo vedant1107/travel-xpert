@@ -8,14 +8,19 @@ import { CssBaseline, Grid } from '@mui/material';
 import { getPlacesData } from './api';
 
 function App() {
+	// array of the places in returned by API 
 	const [places, setPlaces] = useState([])
 
-	const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
+	// coordinates of the center of the map
+	const [coordinates, setCoordinates] = useState({})
+
+	// bounds means the coordinates of top right and bottom left of the visible map
 	const [bounds, setBounds] = useState({})
 
-	// to get the coordinates of user's current location
+	// to get the coordinates of user's current location, this wll run when the map loads for the first time
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(( {coords : {latitude, longitude}}) => {
+			
 			setCoordinates({lat: latitude, lng: longitude})
 		})
 	}, [])
@@ -23,12 +28,12 @@ function App() {
 	// for API call
 	useEffect(() => {
 
-		console.log(coordinates, bounds)
+		// console.log(coordinates, bounds)
 		// API gets called every time coordinates and bounds change
 
-		getPlacesData(bounds.ne, bounds.sw)
+		getPlacesData(bounds.sw, bounds.ne)
 			.then((data) => {
-				console.log(data)
+				// console.log(data)
 
 				setPlaces(data)
 			})
@@ -41,14 +46,19 @@ function App() {
 			<Header />
 
 			<Grid container spacing={3} style={{ width: '100%' }}>
+
+				{/* Left side bar of places list */}
 				<Grid item xs={12} md={4} >
 					<List places = {places}/>
 				</Grid>
+
+				{/* Map */}
 				<Grid item xs={12} md={8} >
 					<Map 
 						setCoordinates={setCoordinates}
 						setBounds = {setBounds}
 						coordinates = {coordinates}
+						places = {places}
 					/>
 				</Grid>
 			</Grid>

@@ -11,16 +11,18 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
 
 // component
 const List = ( { places } ) => {
+
     const [type, setType] = useState("restaurants")
     const [rating, setRating] = useState(0);
 
-    
-
     return (
         <div style={{ padding: "25px" }}>
+
             <Typography variant="h4">Restaurants, Hotels & Attractions around you</Typography>
 
+            {/* select between restaurants hotels and attractions */}
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120, marginBottom: '30px' }}>
+
                 <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
                 <Select
                     labelId="demo-simple-select-standard-label"
@@ -34,7 +36,10 @@ const List = ( { places } ) => {
                     <MenuItem value="attractions">Attractions</MenuItem>
                 </Select>
             </FormControl>
+
+            {/* filter for the ratings */}
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120, marginBottom: '30px' }}>
+                
                 <InputLabel id="demo-simple-select-standard-label">Rating</InputLabel>
                 <Select
                     labelId="demo-simple-select-standard-label"
@@ -50,9 +55,10 @@ const List = ( { places } ) => {
                 </Select>
             </FormControl>
 
+            {/* rendering the place details */}
            <Grid container spacing={3} sx={{height: '75vh', overflow: 'auto'}}>
                 {places?.map((place, i) => (
-        
+                    
                     <Grid item key={i} xs={12}>
                          <PlaceDetails place={place}/>         {/* place is a prop} */}
                     </Grid>
